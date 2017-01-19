@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 %option noyywrap
 %{
 #include <stdlib.h>
@@ -32,5 +31,3 @@ ID       {LETTER}({LETTER}|{DIGIT})*
 
 
 %%
-=======
->>>>>>> e89c3b5ce6f8c50ce7604d2cec0be51b01cdde85
