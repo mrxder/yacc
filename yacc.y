@@ -12,8 +12,9 @@
        }
 
 %token <value>  NUM
-%token IF
+%token IF ELSE WHILE
 %token <lexeme> ID
+%token <lexeme> VAR
 
 %type <value> expr
  /* %type <value> line */

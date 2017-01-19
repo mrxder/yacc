@@ -9,13 +9,19 @@ NUM      {DIGIT}+(\.{DIGIT}+)?
 
 LETTER   [a-zA-Z]
 ID       {LETTER}({LETTER}|{DIGIT})*
+VAR      ${LETTER}({LETTER}|{DIGIT})*
 
 
 %%
 
 [ ]     { /* skip blanks */ }
 
-[iI][fF] {return IF;}
+"if"    {return IF;}
+"else"  {return ELSE;}
+"while" {return WHILE;}
+
+{VAR}   {yyval.lexeme = strdup(yytext);
+          return VAR;}
 {NUM}    {yylval.value = atof(yytext);
           return NUM;}
 {ID}     {yylval.lexeme = strdup(yytext);
@@ -26,6 +32,10 @@ ID       {LETTER}({LETTER}|{DIGIT})*
 "*"     {return '*';}
 "/"     {return '/';}
 ";"     {return ';';}
+"("     {return '(';}
+")"     {return ')';}
+"{"     {return '{';}
+"}"     {return '}';}
 .       { }
   
 
