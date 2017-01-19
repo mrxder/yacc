@@ -1,4 +1,1 @@
-# yacc
-Bo Hall
-blbla
-YOLO
+# Simple callculator with LEX and YACC
