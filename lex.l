@@ -1,6 +1,33 @@
-<<<<<<< HEAD
-hallo
-=======
-hallo
->>>>>>> bdb1890302acc809a18477a60438f0b7fa4a97b4
-servus
+%option noyywrap
+%{
+#include <stdlib.h>
+#include <string.h>
+%}
+
+DIGIT    [0-9]
+NUM      {DIGIT}+(\.{DIGIT}+)?
+
+LETTER   [a-zA-Z]
+ID       {LETTER}({LETTER}|{DIGIT})*
+
+
+%%
+
+[ ]     { /* skip blanks */ }
+
+[iI][fF] {return IF;}
+{NUM}    {yylval.value = atof(yytext);
+          return NUM;}
+{ID}     {yylval.lexeme = strdup(yytext);
+          return ID;}
+
+"+"     {return '+';}
+"-"     {return '-';}
+"*"     {return '*';}
+"/"     {return '/';}
+";"     {return ';';}
+.       { }
+  
+
+
+%%
