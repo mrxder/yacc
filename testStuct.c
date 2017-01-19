@@ -1,6 +1,9 @@
 #include<stdio.h>
 #include<string.h>
 
+//Global Variables
+int intVarCount = 0;
+
 typedef struct {
     char key[50];
     int value;
@@ -9,7 +12,7 @@ typedef struct {
 varInt getInt(char *key, varInt *ints) {
     for(int c =0;c<10;c++) {
         if(strcmp(ints[c].key, key) == 0) {
-            return ints[c];
+            return *ints[c];
         }
     }
     varInt x;
@@ -17,6 +20,20 @@ varInt getInt(char *key, varInt *ints) {
     x.value = -1;
     return x;
 }
+
+/*
+void setInt(char *key, int value, varInt *ints) {
+    varInt res = getInt(&key, &ints);
+    if(strcmp(res->key, key) == 0) {
+        res->key = key;
+        res->value = value;
+    } else {
+        ints[intVarCount].key = key;
+        ints[intVarCount].value = value;
+    }
+
+}
+*/
 
 
 void printInt(varInt *intx) {
