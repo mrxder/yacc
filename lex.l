@@ -19,6 +19,15 @@ VAR      ${LETTER}({LETTER}|{DIGIT})*
 "if"    {return IF;}
 "else"  {return ELSE;}
 "while" {return WHILE;}
+"pi"    {return PI;}
+"e"     {return E;}
+"pow"   {return POW;}
+"sqrt"  {return SQRT;}
+"sin"   {return SIN;}
+"cos"   {return COS;}
+"tan"   {return TAN;}
+"ln"    {return LN;}
+"log"   {return LOG;}
 
 {VAR}   {yylval.lexeme = strdup(yytext);
           return VAR;}
@@ -36,9 +45,17 @@ VAR      ${LETTER}({LETTER}|{DIGIT})*
 ")"     {return ')';}
 "{"     {return '{';}
 "}"     {return '}';}
+","     {return ',';}
 \n      {return '\n';}
 .       { }
   
 
 
 %%
+
+int
+main()
+{
+  printf("> "); 
+  return yyparse();
+}
