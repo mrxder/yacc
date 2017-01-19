@@ -1,14 +1,19 @@
 #include<stdio.h>
 #include<string.h>
+#include<stdlib.h>
 
+//This is the definition of our struct
 struct varDouble{
     char key[50];
     double value;
     struct varDouble *next;
 };
 
+//This is the global head variable
 struct varDouble *headVarDouble = NULL;
 
+
+//This function returns a pointer to the found Variable or NULL if it don't exists.
 struct varDouble* getVarDouble(char *key) {
     struct varDouble *result = NULL;
     struct varDouble *pointer = NULL;
@@ -22,6 +27,7 @@ struct varDouble* getVarDouble(char *key) {
     return NULL;
 }
 
+//This function returns the pointer to the tail of the list
 struct varDouble* getLastVarDouble() {
     struct varDouble *pointer = NULL;
     pointer = headVarDouble;
@@ -34,62 +40,61 @@ struct varDouble* getLastVarDouble() {
 
 }
 
-void setVarDouble(char *key, double value) {
-    if(headVarDouble == NULL) {
-        struct varDouble newOne;
-        strcpy(newOne.key, key);
-        newOne.value = value;
-        newOne.next = NULL;
-        headVarDouble = &newOne;
+//This function simply prints the variable
+void printVarDouble(struct varDouble *varPointer) {
+    if(varPointer != NULL) { 
+        printf("Key:%s Value:%f Addres: %p\n", varPointer->key, varPointer->value, varPointer);
     } else {
+        printf("The pointer points to NULL!\n");
+    }
+}
+
+
+//This function create a variable or modifies the value if it allready exits
+void setVarDouble(char *key, double value) {
+    //If there are still no Variables a new one will be stored as head.
+    if(headVarDouble == NULL) {
+        struct varDouble *newOne;
+        newOne = malloc(sizeof(struct varDouble));
+        strcpy(newOne->key, key);
+        newOne->value = value;
+        newOne->next = NULL;
+        headVarDouble = newOne;
+    } else {
+        //If the variable allready exits the value becomes overwritten.
         struct varDouble *result = getVarDouble(key);
         if(result != NULL) {
             result->value = value;
-        } else {
+        } else { //If the variable doesn't exist a new one will be created.
             struct varDouble *last = getLastVarDouble();
-            struct varDouble newLast;
-            strcpy(newLast.key, key);
-            newLast.value = value;
-            newLast.next = NULL;
-            last->next = &newLast;
+            struct varDouble *newLast;
+            newLast = malloc(sizeof(struct varDouble));
+            strcpy(newLast->key, key);
+            newLast->value = value;
+            newLast->next = NULL;
+            last->next = newLast;
         }
     }
 }
 
 int main() {
-    /*
-    struct varDouble newOne;
-    strcpy(newOne.key, "bo");
-    newOne.value = 5.0;
 
-    struct varDouble newTwo;
-    strcpy(newTwo.key, "bob");
-    newTwo.value = 9.0;
-    newTwo.next = NULL;
-
-    newOne.next = &newTwo;
-    headVarDouble = &newOne;
-    */
     setVarDouble("bo", 5.0);
+    printVarDouble(getVarDouble("bo"));
+
     setVarDouble("boo", 6.0);
-    printf("Key: %s, value %f\n", headVarDouble->key, headVarDouble->value);
-    printf("Key: %s, value %f\n", headVarDouble->next->key, headVarDouble->next->value);
-    
+    printVarDouble(getVarDouble("boo"));
 
-    struct varDouble *result = getVarDouble("bo");
-    if(result != NULL) {
-        printf("Key: %s, value %f\n", result->key, result->value);
-    } else {
-        printf("Not Found\n");
-    }
+    setVarDouble("bo", 1.0);
+    printVarDouble(getVarDouble("bo"));
 
+    setVarDouble("boo", 2.0);
+    printVarDouble(getVarDouble("boo"));
 
-    result = getVarDouble("bob");
-    if(result != NULL) {
-        printf("Key: %s, value %f\n", result->key, result->value);
-    } else {
-        printf("Not Found\n");
-    }
+    setVarDouble("yolo", 4.20);
+    printVarDouble(getVarDouble("yolo"));
+
+    printVarDouble(getVarDouble("swag"));
 
     return 0;
 }
