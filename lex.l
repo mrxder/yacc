@@ -20,7 +20,7 @@ VAR      ${LETTER}({LETTER}|{DIGIT})*
 "else"  {return ELSE;}
 "while" {return WHILE;}
 
-{VAR}   {yyval.lexeme = strdup(yytext);
+{VAR}   {yylval.lexeme = strdup(yytext);
           return VAR;}
 {NUM}    {yylval.value = atof(yytext);
           return NUM;}
@@ -36,6 +36,7 @@ VAR      ${LETTER}({LETTER}|{DIGIT})*
 ")"     {return ')';}
 "{"     {return '{';}
 "}"     {return '}';}
+\n      {return '\n';}
 .       { }
   
 

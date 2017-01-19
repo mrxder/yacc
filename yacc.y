@@ -23,16 +23,18 @@
 %left '*' '/'
 %right UMINUS
 
-%start line
+%start lines
 
 %%
-line  : expr '\n'      {printf("Result: %f\n", $1); exit(0);}
-      | ID             {printf("Result: %s\n", $1); exit(0);}
+lines : lines line | line;
+line  : expr '\n'      {printf("Result: %f\n", $1);}
+      | ID '\n'            {printf("Result: %s\n", $1);}
       ;
 expr  : expr '+' expr  {$$ = $1 + $3;}
       | expr '-' expr  {$$ = $1 - $3;}
       | expr '*' expr  {$$ = $1 * $3;}
       | expr '/' expr  {$$ = $1 / $3;}
+      | '(' expr ')'   {$$ = $2;}
       | NUM            {$$ = $1;}
       | '-' expr %prec UMINUS {$$ = -$2;}
       ;
