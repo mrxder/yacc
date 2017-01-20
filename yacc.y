@@ -21,6 +21,7 @@
 %token <lexeme> VAR
 
 %type <value> expr
+%type <value> line
 %type <check> cond
  /* %type <value> line */
 
@@ -31,14 +32,30 @@
 %start lines
 
 %%
-lines : lines line | line;
-line  : ID '\n'               {printf("Result: %s\n> ", $1);}
-      | expr '\n'             {printf("Result: %f\n> ", $1);}
-      | IF '(' cond ')' '{' expr '}' '\n'    
-      {if($3==true){printf("Result: %f\n> ", $6);} else {printf("False condition\n> ");}}
-      | IF '(' cond ')' '{' expr '}' ELSE '{' expr '}' '\n'    
-      {if($3==true){printf("Result: %f\n> ", $6);} else {printf("Result: %f\n> ", $10);}} 
-      ;
+lines : lines line '\n'       
+      | line '\n';
+line  : ID                                            {printf("Result: %s\n> ", $1);}
+      | expr                                          {printf("Result: %f\n> ", $1);}
+      | IF '(' cond ')' '{' expr '}'     
+            {if($3==true) {printf("Result: %f\n> ", $6);} 
+            else {printf("False condition\n> ");}}
+      | IF '(' cond ')' '{' expr '}' ELSE '{' expr '}'    
+            {if($3==true){printf("Result: %f\n> ", $6);} 
+            else {printf("Result: %f\n> ", $10);}} 
+      | IF '(' cond ')' '{' VAR EQ expr '}'     
+            {if($3==true) {setVarDouble($6, $8); printf("Result: %f\n> ", getDoubleValue($6));} 
+            else {printf("False condition\n> ");}}
+      | IF '(' cond ')' '{' VAR EQ expr '}' ELSE '{' VAR EQ expr '}'    
+            {if($3==true){setVarDouble($6, $8); printf("Result: %f\n> ", getDoubleValue($6));} 
+            else {setVarDouble($12, $14); printf("Result: %f\n> ", getDoubleValue($12));}}
+      | IF '(' cond ')' '{' VAR EQ expr '}' ELSE '{' expr '}'    
+            if($3==true){setVarDouble($6, $8); printf("Result: %f\n> ", getDoubleValue($6));} 
+            else {printf("Result: %f\n> ", $12);}}
+      | IF '(' cond ')' '{' expr '}' ELSE '{' VAR EQ expr '}'    
+            {if($3==true){printf("Result: %f\n> ", $6);} 
+            else {setVarDouble($10, $12); printf("Result: %f\n> ", getDoubleValue($10));}}
+      | VAR EQ expr      {setVarDouble($1, $3); printf("Result: %f\n> ", getDoubleValue($1));}
+
 
 expr  : expr '+' expr  {$$ = $1 + $3;}
       | expr '-' expr  {$$ = $1 - $3;}
@@ -54,8 +71,7 @@ expr  : expr '+' expr  {$$ = $1 + $3;}
       | LN '(' expr ')'            {$$ = log($3);}
       | LOG '(' expr ')'           {$$ = log10($3);}
       | NUM            {$$ = $1;}
-      | VAR            {$$ = getDoubleValue($1);}
-      | VAR EQ expr      {setVarDouble($1, $3);}
+      | VAR              {$$ = getDoubleValue($1);}
       | '-' expr %prec UMINUS {$$ = -$2;}
       ;
 
@@ -71,4 +87,5 @@ cond  : expr LT expr          { if($1 < $3){$$=true;}else{$$=false;}}
 %%
 
 #include "lex.yy.c"
+
 
