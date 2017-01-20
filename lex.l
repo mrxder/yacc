@@ -46,7 +46,15 @@ VAR      ${LETTER}({LETTER}|{DIGIT})*
 "{"     {return '{';}
 "}"     {return '}';}
 ","     {return ',';}
+"="     {return EQ;}
 \n      {return '\n';}
+
+"<"     {return LT;}
+">"     {return GT;}
+"<="    {return LEQT;}
+">="    {return GEQT;}
+"=="    {return EQEQ;}
+"!="    {return NEQ;}
 .       { }
   
 
