@@ -27,6 +27,13 @@ struct varDouble* getVarDouble(char *key) {
     return NULL;
 }
 
+double getDoubleValue(char *key){
+    struct varDouble *pointer = getVarDouble(key);
+    double value = pointer->value;
+    return value;    
+    
+}
+
 //This function returns the pointer to the tail of the list
 struct varDouble* getLastVarDouble() {
     struct varDouble *pointer = NULL;
@@ -77,7 +84,7 @@ void setVarDouble(char *key, double value) {
     }
 }
 
-int main() {
+/*int main() {
 
     //Beispiele
     //Erste Variable speichern.
@@ -104,4 +111,4 @@ int main() {
     printVarDouble(getVarDouble("swag"));
 
     return 0;
-}
+}*/
