@@ -23,6 +23,7 @@
 %type <value> expr
 %type <value> line
 %type <check> cond
+%type <check> bool_exp
  /* %type <value> line */
 
 %left '-' '+'
@@ -36,6 +37,7 @@ lines : lines line '\n'
       | line '\n';
 line  : ID                                            {printf("Result: %s\n> ", $1);}
       | expr                                          {printf("Result: %f\n> ", $1);}
+      | bool_exp                                      {printf("%s\n> ", $1 ?"true":"false");}
       | IF '(' cond ')' '{' expr '}'     
             {if($3==true) {printf("Result: %f\n> ", $6);} 
             else {printf("False condition\n> ");}}
@@ -49,7 +51,7 @@ line  : ID                                            {printf("Result: %s\n> ", 
             {if($3==true){setVarDouble($6, $8); printf("Result: %f\n> ", getDoubleValue($6));} 
             else {setVarDouble($12, $14); printf("Result: %f\n> ", getDoubleValue($12));}}
       | IF '(' cond ')' '{' VAR EQ expr '}' ELSE '{' expr '}'    
-            if($3==true){setVarDouble($6, $8); printf("Result: %f\n> ", getDoubleValue($6));} 
+            {if($3==true){setVarDouble($6, $8); printf("Result: %f\n> ", getDoubleValue($6));} 
             else {printf("Result: %f\n> ", $12);}}
       | IF '(' cond ')' '{' expr '}' ELSE '{' VAR EQ expr '}'    
             {if($3==true){printf("Result: %f\n> ", $6);} 
@@ -75,6 +77,9 @@ expr  : expr '+' expr  {$$ = $1 + $3;}
       | '-' expr %prec UMINUS {$$ = -$2;}
       ;
 
+bool_exp : cond   {$$ = $1;}
+      ;
+
 cond  : expr LT expr          { if($1 < $3){$$=true;}else{$$=false;}}
       | expr GT expr          { if($1 > $3){$$=true;}else{$$=false;}}
       | expr LEQT expr        { if($1 <= $3){$$=true;}else{$$=false;}}
@@ -87,5 +92,3 @@ cond  : expr LT expr          { if($1 < $3){$$=true;}else{$$=false;}}
 %%
 
 #include "lex.yy.c"
-
-
