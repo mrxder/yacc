@@ -84,31 +84,3 @@ void setVarDouble(char *key, double value) {
     }
 }
 
-/*int main() {
-
-    //Beispiele
-    //Erste Variable speichern.
-    setVarDouble("bo", 5.0);
-    printVarDouble(getVarDouble("bo"));
-
-    //Zweite Variable speichern.
-    setVarDouble("boo", 6.0);
-    printVarDouble(getVarDouble("boo"));
-
-    //Erste Variable ändern
-    setVarDouble("bo", 1.0);
-    printVarDouble(getVarDouble("bo"));
-
-    //Zweite Variable ändern
-    setVarDouble("boo", 2.0);
-    printVarDouble(getVarDouble("boo"));
-
-    //Dritte Variable erstellen
-    setVarDouble("yolo", 4.20);
-    printVarDouble(getVarDouble("yolo"));
-
-    //Versuchen eine nicht existierende Variable auf zu rufen.
-    printVarDouble(getVarDouble("swag"));
-
-    return 0;
-}*/
