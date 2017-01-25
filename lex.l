@@ -16,18 +16,18 @@ VAR      ${LETTER}({LETTER}|{DIGIT})*
 
 [ ]     { /* skip blanks */ }
 
-"if"    {return IF;}
-"else"  {return ELSE;}
-"while" {return WHILE;}
-"pi"    {return PI;}
-"e"     {return E;}
-"pow"   {return POW;}
-"sqrt"  {return SQRT;}
-"sin"   {return SIN;}
-"cos"   {return COS;}
-"tan"   {return TAN;}
-"ln"    {return LN;}
-"log"   {return LOG;}
+[iI][fF]              {return IF;}
+[eE][lL][sS][eE]      {return ELSE;}
+[wW][hH][iI][lL][eE]  {return WHILE;}
+[pP][iI]              {return PI;}
+[eE]                  {return E;}
+[pP][oO][wW]          {return POW;}
+[sS][qQ][rR][tT]      {return SQRT;}
+[sS][iI][nN]          {return SIN;}
+[cC][oO][sS]          {return COS;}
+[tT][aA][nN]          {return TAN;}
+[lL][nN]              {return LN;}
+[lL][oO][gG]          {return LOG;}
 
 {VAR}   {yylval.lexeme = strdup(yytext);
           return VAR;}
