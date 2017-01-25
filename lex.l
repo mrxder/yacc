@@ -10,7 +10,7 @@ NUM      {DIGIT}+(\.{DIGIT}+)?
 LETTER   [a-zA-Z]
 ID       {LETTER}({LETTER}|{DIGIT})*
 VAR      ${LETTER}({LETTER}|{DIGIT})*
-
+COMMENT  #.*\n
 
 %%
 
@@ -35,6 +35,7 @@ VAR      ${LETTER}({LETTER}|{DIGIT})*
           return NUM;}
 {ID}     {yylval.lexeme = strdup(yytext);
           return ID;}
+{COMMENT}     { }
 
 "+"     {return '+';}
 "-"     {return '-';}
