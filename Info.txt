@@ -1,0 +1,17 @@
+Project of Team #3
+Matthias Moroder #12251
+Maximilian Nocker #12689
+Matthias Keim #12594
+
+Compile with
+./make
+
+Run the test file
+./a.out < example.txt
+
+Possilbe features:
+- Variables
+- computations
+- if else (also nested) 
+- Math( pi, e, sin, cos, tan, pow, sqrt, ln, log)
+- Simple boolean computations
