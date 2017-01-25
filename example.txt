@@ -1,0 +1,16 @@
+#Comments start with a # and can only be in a seperate line
+#Variables start with a $ sign, followed by a character.
+$varA = 5
+#It is possible to make simple computations
+$varA + 10
+$varB = $varA + 2
+#Also if-conditions can be executed
+if ( $varA == 5 ) { 10 }
+#Even nested ifs are possible
+if ( $varB > $varA ) { if ( 5==5 ) { $varB*$varA/6 } }
+#We also implemented some mathematical functions
+pi
+e
+pow ( 5 , 2 )
+sin (pi)
+ln ( e )
