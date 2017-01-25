@@ -8,7 +8,6 @@
 #include "variableList.c"
 %}
 
-
 %union {
        char* lexeme;			//identifier
        double value;			//value of an identifier of type NUM
@@ -39,18 +38,18 @@ lines : lines line '\n'
 line  : ID                                            {printf("Result: %s\n> ", $1);}
       | expr                                          {printf("Result: %f\n> ", $1);}
       | bool_exp                                      {printf("%s\n> ", $1 ?"true":"false");}
-      | VAR EQ expr      {setVarDouble($1, $3); printf("Result: %f\n> ", getDoubleValue($1));}
-      | flow                                          {printf("Result: %f\n> ", $1);}
+      | VAR EQ expr                                   {setVarDouble($1, $3); printf("Result: %f\n> ", getDoubleValue($1));}
+      | flow                                          {if($1==999999){printf("False condition \n> ");} else {printf("Result: %f\n> ", $1);}}
       
 flow : IF '(' cond ')' '{' expr '}'     
             {if($3==true) {$$=$6;} 
-            else {printf("False condition\n> ");}}
+            else { $$=999999;}}
       | IF '(' cond ')' '{' expr '}' ELSE '{' expr '}'    
             {if($3==true){$$=$6;} 
             else {$$=$10;}} 
       | IF '(' cond ')' '{' VAR EQ expr '}'     
             {if($3==true) {setVarDouble($6, $8); $$= getDoubleValue($6);} 
-            else {printf("False condition\n> ");}}
+            else { $$=999999;}}
       | IF '(' cond ')' '{' VAR EQ expr '}' ELSE '{' VAR EQ expr '}'    
             {if($3==true){setVarDouble($6, $8); $$= getDoubleValue($6);} 
             else {setVarDouble($12, $14); $$= getDoubleValue($12);}}
@@ -62,13 +61,19 @@ flow : IF '(' cond ')' '{' expr '}'
             else {setVarDouble($10, $12); $$= getDoubleValue($10);}}
       | IF '(' cond ')' '{' flow '}'  
             {if($3==true) {$$=$6;} 
-            else {printf("False condition\n> ");}}
+            else { $$=999999;}}
       | IF '(' cond ')' '{' expr '}' ELSE '{' flow '}'    
             {if($3==true){$$=$6;} 
             else {$$=$10;} }
       | IF '(' cond ')' '{' flow '}' ELSE '{' expr '}'    
             {if($3==true){$$=$6;} 
             else {$$=$10;}} 
+      | IF '(' cond ')' '{' VAR EQ expr '}' ELSE '{' flow '}'    
+            {if($3==true){setVarDouble($6, $8); $$= getDoubleValue($6);} 
+            else {$$=$12;} }
+      | IF '(' cond ')' '{' flow '}' ELSE '{' VAR EQ expr '}'    
+            {if($3==true){$$=$6;} 
+            else {setVarDouble($10, $12); $$= getDoubleValue($10);}} 
      
 
 expr  : expr '+' expr  {$$ = $1 + $3;}
@@ -104,3 +109,4 @@ cond  : expr LT expr          { if($1 < $3){$$=true;}else{$$=false;}}
 %%
 
 #include "lex.yy.c"
+
