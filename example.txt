@@ -14,3 +14,7 @@ e
 pow ( 5 , 2 )
 sin (pi)
 ln ( e )
+#Boolean arithmetic is also possible
+$varC = 8
+$varA = 100
+$varA > $varC
